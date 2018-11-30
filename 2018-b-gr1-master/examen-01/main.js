@@ -43,6 +43,22 @@ const leerAbilities = () => {
         });
     });
 };
+const pokAbilities = () => {
+    return new Promise((resolve, reject) => {
+        fs.readFile('pokemon/data.json', 'utf-8', (err, contenido) => {
+            if (err) {
+                reject({ mensaje: 'Error leyendo' });
+            }
+            else {
+                const bdd = JSON.parse(contenido);
+                const abilities = bdd.map((v) => v.abilities);
+                const ability = abilities.map((v) => v[0].ability);
+                const abilityname = ability.map((v) => v.name);
+                resolve(abilityname);
+            }
+        });
+    });
+};
 const leerMoves = () => {
     return new Promise((resolve, reject) => {
         fs.readFile('pokemon/data.json', 'utf-8', (err, contenido) => {
@@ -153,6 +169,9 @@ async function main() {
         console.log('\n9. Todos items?:\n');
         const itemsw = await items();
         console.log(itemsw);
+        console.log('\n10. Habilidad pokemon:\n');
+        const hab_pok = await leerAbilities();
+        console.log(hab_pok);
         // console.log('\nIngresar People\n')
         // const respuestaIng = await inquirer.prompt(preguntasIngreso);
         // const respuestaIngresar = await ingresarPeople(respuestaIng);
